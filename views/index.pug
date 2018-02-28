@@ -1,0 +1,69 @@
+extends layout
+
+block content
+
+  #map
+
+  script.
+    var map;
+    var markers = [];
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.775, lng: -73.434},
+        zoom: 12
+      }); 
+      
+      map.addListener('click', function(e) {
+        placeMarkerAndPanTo(e.latLng, map);
+      });      
+    }
+
+    function placeMarkerAndPanTo(latLng, map) {
+      deleteMarkers();
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+      });
+      markers.push(marker);
+      map.panTo(latLng);
+      populateForm();
+    }
+    
+    function setMapOnAll(map) {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+      }
+    }
+
+    function clearMarkers() {
+      setMapOnAll(null);
+    }
+
+    function deleteMarkers() {
+      clearMarkers();
+      markers = [];
+    }
+
+    function populateForm() {
+      $('#lat').val(markers[0].position.lat());
+      $('#lon').val(markers[0].position.lng());
+      console.log(markers[0])
+    }
+
+  div.form-row
+  
+  div.form-row
+    label(for='mobile') Latitude
+    input(type='text' id='lat')
+    
+    label(for='mobile') Longitude
+    input(type='text' id='lon')
+
+  div.form-row
+    button Submit
+
+
+  script(src='https://maps.googleapis.com/maps/api/js?key='+process.env.GOOGLE_MAPS_API_KEY+'&callback=initMap')
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+
