@@ -29,3 +29,31 @@ label {
 .form-row {
 	margin-bottom: 0.8em;
 }
+
+.msg {
+	background-color: #FFF;
+	margin: 1em 0;
+	padding: 0.4em;
+}
+.msg:before {
+	content: '>';
+}
+
+.msg.warn {
+	color: #EF3333;
+}
+
+.msg.success {
+	color: #3333EF;
+}
+
+.col-1 {
+	float: left;
+	width: 60%;
+}
+
+.col-2 {
+	float: left;
+	width: 35%;
+	margin-left: 40px;
+}

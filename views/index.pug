@@ -2,16 +2,57 @@ extends layout
 
 block content
 
-  #map
+  div.col-1
+
+    #map
+
+  div.col-2
+
+    div.form-row
+    
+    div.form-row
+      label(for='device') Device
+      select(id='device')
+        option(value="automatic") Automatic
+        option(value="dash") Dash
+    
+    div.form-row
+      label(for='webhook') Webhook
+      select(id='webhook')
+        option(value="ignition-on") Ignition: On
+        option(value="ignition-off") Ignition: Off
+        option(value="mil") Check Engine: On
+    
+    div.form-row
+      label(for='endpoint') Endpoint
+      input(type='text' id='endpoint')
+
+    div.form-row
+      label(for='vehicleId') Vehicle Id
+      input(type='text' id='vehicleId')
+
+    div.form-row
+      label(for='lat') Latitude
+      input(type='text' id='lat')
+      
+    div.form-row
+      label(for='lon') Longitude
+      input(type='text' id='lon')
+
+    div.form-row
+      button(onclick='processForm()') Send Webhook
+
+    div.msg(style='display:none') 
 
   script.
+    window.$ = window.jQuery;
     var map;
     var markers = [];
 
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.775, lng: -73.434},
-        zoom: 12
+        center: {lat: 40.71, lng: -73.94},
+        zoom: 13
       }); 
       
       map.addListener('click', function(e) {
@@ -48,20 +89,22 @@ block content
     function populateForm() {
       $('#lat').val(markers[0].position.lat());
       $('#lon').val(markers[0].position.lng());
-      console.log(markers[0])
     }
 
-  div.form-row
-  
-  div.form-row
-    label(for='mobile') Latitude
-    input(type='text' id='lat')
-    
-    label(for='mobile') Longitude
-    input(type='text' id='lon')
-
-  div.form-row
-    button Submit
+    function processForm() {
+      $.post(
+        '/simulate_webhook',
+        {}
+      )
+      .done(function(data) {
+        if (data) {
+          alert('success');
+        }
+      })
+      .fail(function(jqhxr, textStatus, error) {
+        alert('fail');
+      });
+    }
 
 
   script(src='https://maps.googleapis.com/maps/api/js?key='+process.env.GOOGLE_MAPS_API_KEY+'&callback=initMap')
