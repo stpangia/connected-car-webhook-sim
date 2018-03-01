@@ -17,8 +17,8 @@ block content
         option(value="dash") Dash
     
     div.form-row
-      label(for='webhook') Webhook
-      select(id='webhook')
+      label(for='event') Event
+      select(id='event')
         option(value="ignition-on") Ignition: On
         option(value="ignition-off") Ignition: Off
         option(value="mil") Check Engine: On
@@ -30,6 +30,10 @@ block content
     div.form-row
       label(for='vehicleId') Vehicle Id
       input(type='text' id='vehicleId')
+
+    div.form-row
+      label(for='userId') User Id
+      input(type='text' id='userId')
 
     div.form-row
       label(for='lat') Latitude
@@ -52,9 +56,16 @@ block content
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.71, lng: -73.94},
-        zoom: 13
-      }); 
-      
+        zoom: 13,
+        styles: [
+          {
+            "featureType": "poi",
+            "stylers": [
+              { "visibility": "off" }
+            ]
+          }
+        ]
+        }); 
       map.addListener('click', function(e) {
         placeMarkerAndPanTo(e.latLng, map);
       });      
@@ -94,15 +105,25 @@ block content
     function processForm() {
       $.post(
         '/simulate_webhook',
-        {}
-      )
-      .done(function(data) {
-        if (data) {
-          alert('success');
+        {
+          device: $('#device').val(),
+          event: $('#event').val(),
+          endpoint: $('#endpoint').val(),
+          vehicleId: $('#vehicleId').val(),
+          userId: $('#userId').val(),
+          lat: $('#lat').val(),
+          lon: $('#lon').val(),
+
         }
+      )
+      .done(function(response) {
+        $('.msg').removeClass('warn').addClass('success').text(response.message).show()
       })
       .fail(function(jqhxr, textStatus, error) {
-        alert('fail');
+        $('.msg').removeClass('success').addClass('warn').text(error ? error : textStatus).show()
+      })
+      .always(function() {
+        setTimeout( function() { $('.msg').fadeOut() }, 2000);
       });
     }
 
