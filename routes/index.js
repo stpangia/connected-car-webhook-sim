@@ -13,7 +13,7 @@ router.post('/simulate_webhook', function(req, res, next) {
 	var device = deviceAdapter.getDevice(req.body.device);
 	var params = device.createWebhookObject('ignition_off', req.body.userId, req.body.vehicleId, req.body.lat, req.body.lon);
 	var headers = device.getSignatureHeader(params);
-console.log(headers)
+
 	request({
 		method: 'POST',
 	  uri: req.body.endpoint,
