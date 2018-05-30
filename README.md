@@ -1,6 +1,6 @@
 # Connected Car Webhook Simulator
 
-## Spoof vehicle event webhooks for testing your connected car apps.
+## Spoof vehicle event webhooks for testing your connected car apps
 
 ### Requirements
 
@@ -23,7 +23,7 @@
     `cp .env.example .env`
 
 - Edit .env file
-    - In a text editor, modify the .env file created above to suit your environment, API credentials, etc (NOTE that the default PORT value is 3001 in anticipation of the application being demoed or tested running on the default Port:3000)
+    - In a text editor, modify the .env file created above to suit your environment, API credentials, etc (NOTE that the default PORT value is 3001 in anticipation that the application being demoed or tested will be running on the default Port:3000)
 
 - Run (from command line, in root of locally cloned repo)
 
