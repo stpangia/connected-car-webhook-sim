@@ -1,6 +1,6 @@
 # Connected Car Webhook Simulator
 
-## Spoof Vehicle Event Webhooks for testing your connected car apps.
+## Spoof vehicle event webhooks for testing your connected car apps.
 
 ### Requirements
 
